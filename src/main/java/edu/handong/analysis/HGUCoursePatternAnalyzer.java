@@ -5,7 +5,7 @@ import edu.handong.analysis.datamodel.Student;
 
 public class HGUCoursePatternAnalyzer {
 	
-	String[] lines = {	"1999-1, JC Nam, Java Programming",
+	private String[] lines = {	"1999-1, JC Nam, Java Programming",
 						"1999-2, JC Nam, Programming Language Theory",
 						"1999-1, JC Nam, Data Structures",
 						"2001-1, JC Nam, Database Systems",
@@ -19,31 +19,56 @@ public class HGUCoursePatternAnalyzer {
 						"2019-1, SJ Kim, Algorithm Analysis",
 						};
 
-	int numOfStudents;
-	int numOfCourses;
-	Student[] students;
-	Course[] courses;
+	private int numOfStudents;
+	private int numOfCourses;
+	private Student[] students;
+	private Course[] courses;
 	
 	/**
 	 * This method runs our analysis logic to get the list of student and course names from lines.
 	 * @param args
 	 */
 	public void run(String[] args) {
+		String[] splitStu = new String[100];
+		String[] splitCourse = new String[100];
 		
 		numOfStudents = Integer.parseInt(args[0]);
 		numOfCourses = Integer.parseInt(args[1]);
-	
-		students = initiateStudentArrayFromLines(lines);
 		
-		System.out.println("Number of All Students: " + numOfStudents);
-		for(Student student: students) {
-			System.out.println(student.getName());
+		/*for(int i = 0; i < lines.length; i++) {
+			splitLine = lines[i].split(",");
+		} */
+		
+		for(int i = 0; i < lines.length; i++) {
+			if(lines[i] != null)
+				splitStu[i] = lines[i].split(",")[1].trim();
 		}
 		
-		courses = initiateCourseArrayFromLines(lines);
+		for(int i = 0; i < lines.length; i++) {
+			if(lines[i] != null)
+				splitCourse[i] = lines[i].split(",")[2].trim();
+		}
+	
+		students = initiateStudentArrayFromLines(splitStu);
+		
+		System.out.println("Number of All Students: " + numOfStudents);
+		
+		for(int i = 0; i < students.length; i++) {
+			if(students[i] != null) {
+				if(studentExist(students,students[i]) == true)
+					System.out.println(students[i].getName());
+			}
+		}
+		
 		System.out.println("Number of All Courses: " + numOfCourses);
-		for(Course course: courses) {
-			System.out.println(course.getCourseName());
+		
+		courses = initiateCourseArrayFromLines(splitCourse);
+		
+		for(int i = 0; i < courses.length; i++) {
+			if(courses[i] != null) {
+				if(courseExist(courses,courses[i]) == true)
+					System.out.println(courses[i].getCourseName());
+			}
 		}
 		
 	}
@@ -54,11 +79,16 @@ public class HGUCoursePatternAnalyzer {
 	 * @return
 	 */
 	private Student[] initiateStudentArrayFromLines(String[] lines) {
+		Student[] student1 = null;
 		
-		// TODO: implement this method
+		student1 = new Student[lines.length];
 		
+		for(int i = 0; i < lines.length; i++) {
+			if(lines[i] != null)
+				student1[i] = new Student(lines[i].trim());
+		} 
 		
-		return null;
+		return student1;
 	}
 
 	/**
@@ -69,8 +99,15 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private boolean studentExist(Student[] students, Student student) {
 		
-		// TODO: implement this method
-
+		for(int i = 0; i < students.length; i++) {
+			if(students[i] != null && students[i].getName() == student.getName()) {
+				for(int j = 0; j < i; j++) {
+					if(students[i].getName().equals(students[j].getName()))
+						return false;
+				}
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -81,9 +118,16 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private Course[] initiateCourseArrayFromLines(String[] lines) {
 		
-		// TODO: implement this method
+		Course[] course1 = null;
 		
-		return null;
+		course1 = new Course[lines.length];
+		
+		for(int i = 0; i < lines.length; i++) {
+			if(lines[i] != null)
+				course1[i] = new Course(lines[i].trim());
+		} 
+		
+		return course1;
 	}
 
 	/**
@@ -94,8 +138,15 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private boolean courseExist(Course[] courses, Course course) {
 		
-		// TODO: implement this method
-
+		for(int i = 0; i < courses.length; i++) {
+			if(courses[i] != null && courses[i].getCourseName() == course.getCourseName()) {
+				for(int j = 0; j < i; j++) {
+					if(courses[i].getCourseName().equals(courses[j].getCourseName()))
+						return false;
+				}
+				return true;
+			}
+		}
 		return false;
 	}
 
