@@ -35,9 +35,6 @@ public class HGUCoursePatternAnalyzer {
 		numOfStudents = Integer.parseInt(args[0]);
 		numOfCourses = Integer.parseInt(args[1]);
 		
-		/*for(int i = 0; i < lines.length; i++) {
-			splitLine = lines[i].split(",");
-		} */
 		
 		for(int i = 0; i < lines.length; i++) {
 			if(lines[i] != null)
